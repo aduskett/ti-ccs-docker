@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+   ti-css-dev:
+    build:
+      context: ./
+      args:
+       USERNAME: ti
+       UID: 1000
+       GID: 1000
+       COMPONENT_LIST: "PF_CC2X,PF_SITARA"
+       CL2000: "false"
+    privileged: true
+    stdin_open: true
+    tty: true
+    environment:
+      - DISPLAY=unix:1
+    volumes:
+      - ./:/mnt/dcfc
+      # dbus
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /etc/machine-id:/var/lib/dbus/machine-id
+      - /var/run/dbus:/var/run/dbus
+      # X11 Forwarding
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    image: ti-css-dev:latest
+    container_name:  ti-css-dev
